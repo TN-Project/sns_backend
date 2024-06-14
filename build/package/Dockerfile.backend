@@ -3,6 +3,7 @@ WORKDIR /app
 RUN go install github.com/air-verse/air@latest
 COPY . .
 
+RUN go mod init backend
 RUN go mod tidy
 
 CMD ["air", "-c", ".air.toml"]
