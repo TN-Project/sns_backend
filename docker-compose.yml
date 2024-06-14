@@ -10,20 +10,20 @@ services:
       - ./cmd:/app/cmd
       - ./pkg:/app/pkg
       - ./.air.toml:/app/.air.toml
-    # depends_on:
-    #   - db
-    #   - redis
+    depends_on:
+      - db
+      - redis
     
-  # db:
-  #   image: postgres:alpine
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: postgres
-  #     POSTGRES_DB: postgres
-  #   ports:
-  #     - "5432:5432"
+  db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
 
-  # redis:
-  #   image: redis:alpine
-  #   ports:
-  #     - "6379:6379"
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
