@@ -7,7 +7,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - .:/app
+      - ./cmd:/app/cmd
+      - ./pkg:/app/pkg
+      - ./.air.toml:/app/.air.toml
     depends_on:
       - db
       - redis
