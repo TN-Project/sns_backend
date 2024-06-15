@@ -1,8 +1,6 @@
 package auth
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +21,7 @@ func signupPost(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(req)
+	// データベースに登録
 
 	c.JSON(200, gin.H{
 		"message": "signup",
