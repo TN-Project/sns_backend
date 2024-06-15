@@ -1,6 +1,6 @@
 FROM golang:latest
 WORKDIR /app
-RUN go mod init aaaa
+RUN go mod init sns_backend
 ADD . .
 RUN go mod tidy
 
