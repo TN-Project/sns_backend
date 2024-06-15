@@ -6,7 +6,7 @@ root = "."
 
 [build]
 # Just plain old shell command. You could use `make` as well.
-cmd = "go build -o ./cmd/main ./cmd/*/main.go"
+cmd = "go mod tidy && go build -o ./cmd/main ./cmd/*/main.go"
 # Binary file yields from `cmd`.
 bin = "cmd/main"
 # Customize binary.
