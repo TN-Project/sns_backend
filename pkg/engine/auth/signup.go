@@ -1,9 +1,11 @@
 package auth
 
 import (
-	"sns_backend/pkg/common"
 	"sns_backend/pkg/common/encrypt"
+	"sns_backend/pkg/common/model"
+	"sns_backend/pkg/common/random"
 	"sns_backend/pkg/db/create"
+	"sns_backend/pkg/session"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,7 +29,7 @@ func signupPost(c *gin.Context) {
 
 	// データベースに登録
 	// ランダムなユーザIDを生成
-	userid := common.GenerateRandomInt()
+	userid := random.GenerateRandomInt()
 	// パスワードをハッシュ化
 	hashed_password, err := encrypt.PasswordEncrypt(req.Password)
 	if err != nil {
@@ -47,7 +49,18 @@ func signupPost(c *gin.Context) {
 		return
 	}
 
+	// セッション情報を設定
+	session_data := model.Session{
+		Userid:   userid,
+		Nickname: req.Nickname,
+		Username: req.Username,
+	}
+
+	// セッションを設定
+	session.Default(c, "session", &model.Session{}).Set(c, session_data)
+
 	c.JSON(200, gin.H{
-		"message": "signup",
+		"status":  "success",
+		"message": "complete signup",
 	})
 }
