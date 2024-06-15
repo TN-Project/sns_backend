@@ -28,9 +28,6 @@ func init() {
 func Connect() *sql.DB {
 	dsn := DB_TYPE + "://" + DB_USERNAME + ":" + DB_PASSWORD + "@" + DB_HOST + "/" + DB_NAME + "?sslmode=" + DB_SSLMODE
 
-	slog.Info("Connecting to database")
-	slog.Info("DSN: " + dsn)
-
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		slog.Error("failed to connect database", err)
