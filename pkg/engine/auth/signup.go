@@ -60,7 +60,7 @@ func signupPost(c *gin.Context) {
 	session.Default(c, "session", &model.Session{}).Set(c, session_data)
 
 	c.JSON(200, gin.H{
-		"status":  "success",
 		"message": "complete signup",
+		"error":   nil,
 	})
 }
