@@ -2,6 +2,7 @@ package create
 
 import (
 	"log/slog"
+	"sns_backend/pkg/common/random"
 	"sns_backend/pkg/db"
 )
 
@@ -18,7 +19,7 @@ func CreateDefaultTable() {
 	for _, sql := range sql_stm {
 		_, err := db.Exec(sql)
 		if err != nil {
-			slog.Error("Error creating table: ", err)
+			slog.Error("Error creating table: " + err.Error())
 			return
 		}
 	}
@@ -32,9 +33,61 @@ func CreateUser(user_id int, nickname string, username string, hashed_password s
 	sql := `insert into "user" (user_id, nickname, username, password) values ($1, $2, $3, $4)`
 	_, err := db.Exec(sql, user_id, nickname, username, hashed_password)
 	if err != nil {
-		slog.Error("Error creating user: ", err)
+		slog.Error("Error creating user: " + err.Error())
 		return err
 	}
 	slog.Info("User created successfully")
+	return nil
+}
+
+// グループを作成
+func CreateGroup(group_name string) error {
+	db := db.Connect()
+	defer db.Close()
+
+	// ランダムなグループIDを生成
+	group_id := random.GenerateRandomInt()
+
+	sql := `insert into "group" (group_id, group_name) values ($1, $2)`
+	_, err := db.Exec(sql, group_id, group_name)
+	if err != nil {
+		slog.Error("Error creating group: " + err.Error())
+		return err
+	}
+	slog.Info("Group created successfully")
+	return nil
+}
+
+// ユーザをグループに追加
+func AddUserToGroup(user_id []int, group_id int) error {
+	db := db.Connect()
+	defer db.Close()
+
+	for _, id := range user_id {
+		sql := `insert into "user_group" (user_id, group_id) values ($1, $2)`
+		_, err := db.Exec(sql, id, group_id)
+		if err != nil {
+			slog.Error("Error adding user to group: " + err.Error())
+			return err
+		}
+	}
+	slog.Info("User added to group successfully")
+	return nil
+}
+
+// 写真を登録
+func CreatePicture(picture_id []string, group_id int) error {
+	db := db.Connect()
+	defer db.Close()
+
+	for _, id := range picture_id {
+		sql := `insert into "picture" (picture_id, group_id) values ($1, $2)`
+		_, err := db.Exec(sql, id, group_id)
+		if err != nil {
+			slog.Error("Error creating picture: " + err.Error())
+			return err
+		}
+	}
+	slog.Info("Picture created successfully")
 	return nil
 }
