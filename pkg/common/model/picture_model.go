@@ -1,6 +1,6 @@
 package model
 
 type Picture struct {
-	Picture_id int
+	Picture_id string
 	Group_id   int
 }
