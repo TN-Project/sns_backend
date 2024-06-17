@@ -18,7 +18,7 @@ func CreateDefaultTable() {
 	for _, sql := range sql_stm {
 		_, err := db.Exec(sql)
 		if err != nil {
-			slog.Error("Error creating table: ", err)
+			slog.Error("Error creating table: " + err.Error())
 			return
 		}
 	}
@@ -32,7 +32,7 @@ func CreateUser(user_id int, nickname string, username string, hashed_password s
 	sql := `insert into "user" (user_id, nickname, username, password) values ($1, $2, $3, $4)`
 	_, err := db.Exec(sql, user_id, nickname, username, hashed_password)
 	if err != nil {
-		slog.Error("Error creating user: ", err)
+		slog.Error("Error creating user: " + err.Error())
 		return err
 	}
 	slog.Info("User created successfully")
