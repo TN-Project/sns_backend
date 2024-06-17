@@ -16,3 +16,5 @@ docker compose up
         "username": "test_username",
         "password": "test_password"
     }
+
+## DB
