@@ -129,3 +129,29 @@ func GetGroupsUser(group_name string) ([]model.User, error) {
 
 	return users, nil
 }
+
+// グループに登録されている写真を取得
+func GetPicture(group_id int) ([]string, error) {
+	db := db.Connect()
+	defer db.Close()
+
+	sql := `select picture_id from "picture" where group_id = $1`
+	rows, err := db.Query(sql, group_id)
+	if err != nil {
+		slog.Error("Error getting picture: " + err.Error())
+		return nil, err
+	}
+	defer rows.Close()
+
+	var picture_id []string
+	for rows.Next() {
+		var id string
+		if err := rows.Scan(&id); err != nil {
+			slog.Error("Error getting picture: " + err.Error())
+			return nil, err
+		}
+		picture_id = append(picture_id, id)
+	}
+	slog.Info("Picture got successfully")
+	return picture_id, nil
+}
