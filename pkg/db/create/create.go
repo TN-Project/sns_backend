@@ -41,7 +41,7 @@ func CreateUser(user_id int, nickname string, username string, hashed_password s
 }
 
 // グループを作成
-func CreateGroup(group_name string) error {
+func CreateGroup(group_name string) (int, error) {
 	db := db.Connect()
 	defer db.Close()
 
@@ -52,10 +52,10 @@ func CreateGroup(group_name string) error {
 	_, err := db.Exec(sql, group_id, group_name)
 	if err != nil {
 		slog.Error("Error creating group: " + err.Error())
-		return err
+		return -1, err
 	}
 	slog.Info("Group created successfully")
-	return nil
+	return group_id, nil
 }
 
 // ユーザをグループに追加
