@@ -18,6 +18,7 @@ func Engine(r *gin.Engine) *gin.Engine {
 	groupGroup := r.Group("/group")
 	{
 		groupGroup.POST("/add", group.AddGroupPost())
+		groupGroup.GET("/acquisition-affiliation-user", group.AcquisitionAffiliationUserGet())
 	}
 	pictureGroup := r.Group("/picture")
 	{
