@@ -77,6 +77,22 @@ func GetUsersGroup(username string) ([]model.Group, error) {
 	return groups, nil
 }
 
+// グループIDからグループ情報を取得
+func GetGroupByID(group_id int) (model.Group, error) {
+	db := db.Connect()
+	defer db.Close()
+
+	sql := `select group_id, group_name from "group" where group_id = $1`
+	var group model.Group
+	err := db.QueryRow(sql, group_id).Scan(&group.Group_id, &group.Group_name)
+	if err != nil {
+		slog.Error("Error getting group: " + err.Error())
+		return model.Group{}, err
+	}
+
+	return group, nil
+}
+
 // グループ名からグループ情報を取得
 func GetGroup(group_name string) (model.Group, error) {
 	db := db.Connect()
