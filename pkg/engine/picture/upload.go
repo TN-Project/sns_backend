@@ -2,10 +2,10 @@ package picture
 
 import (
 	"fmt"
-	"log/slog"
 	"os"
 	"path/filepath"
 	"sns_backend/pkg/common/model"
+	"sns_backend/pkg/common/random"
 	"sns_backend/pkg/db/read"
 	"sns_backend/pkg/session"
 
@@ -70,8 +70,9 @@ func uploadPost(c *gin.Context) {
 	}
 	defer file.Close()
 
+	// ファイル名をランダムな文字列に変更
+	header.Filename = random.MakeRandomStringId(32)
 	savepath := filepath.Join("upload", fmt.Sprintf("%d", group.Group_id), header.Filename)
-	slog.Info("savepath: " + savepath)
 	err = c.SaveUploadedFile(header, savepath)
 	if err != nil {
 		c.JSON(500, gin.H{
