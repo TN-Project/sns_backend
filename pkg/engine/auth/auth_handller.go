@@ -7,3 +7,7 @@ import (
 func SignupPost() gin.HandlerFunc {
 	return signupPost
 }
+
+func LoginPost() gin.HandlerFunc {
+	return loginPost
+}
