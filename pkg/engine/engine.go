@@ -3,6 +3,7 @@ package engine
 import (
 	"sns_backend/pkg/engine/auth"
 	"sns_backend/pkg/engine/group"
+	"sns_backend/pkg/engine/picture"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,7 +21,7 @@ func Engine(r *gin.Engine) *gin.Engine {
 	}
 	pictureGroup := r.Group("/picture")
 	{
-		pictureGroup.POST("/upload", group.AddGroupPost())
+		pictureGroup.POST("/upload", picture.UploadPost())
 	}
 
 	return r
