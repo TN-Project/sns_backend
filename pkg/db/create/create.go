@@ -10,6 +10,7 @@ var sql_stm []string = []string{
 	`create table IF NOT EXISTS "user" (user_id bigint PRIMARY KEY, nickname text NOT NULL, username text UNIQUE, password text)`,
 	`create table IF NOT EXISTS "group" (group_id bigint PRIMARY KEY, group_name text)`,
 	`create table IF NOT EXISTS "user_group" (user_id bigint, group_id bigint, PRIMARY KEY(user_id, group_id), FOREIGN KEY(user_id) REFERENCES "user"(user_id), FOREIGN KEY(group_id) REFERENCES "group"(group_id))`,
+	`create table IF NOT EXISTS "picture" (picture_id text PRIMARY KEY, group_id bigint, FOREIGN KEY(group_id) REFERENCES "group"(group_id))`,
 }
 
 func CreateDefaultTable() {
@@ -76,18 +77,17 @@ func AddUserToGroup(user_id []int, group_id int) error {
 }
 
 // 写真を登録
-func CreatePicture(picture_id []string, group_id int) error {
+func CreatePicture(picture_id string, group_id int) error {
 	db := db.Connect()
 	defer db.Close()
 
-	for _, id := range picture_id {
-		sql := `insert into "picture" (picture_id, group_id) values ($1, $2)`
-		_, err := db.Exec(sql, id, group_id)
-		if err != nil {
-			slog.Error("Error creating picture: " + err.Error())
-			return err
-		}
+	sql := `insert into "picture" (picture_id, group_id) values ($1, $2)`
+	_, err := db.Exec(sql, picture_id, group_id)
+	if err != nil {
+		slog.Error("Error creating picture: " + err.Error())
+		return err
 	}
+
 	slog.Info("Picture created successfully")
 	return nil
 }
