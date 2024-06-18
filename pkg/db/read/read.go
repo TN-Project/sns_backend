@@ -7,7 +7,7 @@ import (
 )
 
 // ユーザ名からユーザ情報を取得
-func GetUser(username string) (model.User, error) {
+func GetUser(username string) (*model.User, error) {
 	db := db.Connect()
 	defer db.Close()
 
@@ -16,10 +16,10 @@ func GetUser(username string) (model.User, error) {
 	err := db.QueryRow(sql, username).Scan(&user.User_id, &user.Nickname, &user.Username, &user.Password)
 	if err != nil {
 		slog.Error("Error getting user: " + err.Error())
-		return model.User{}, err
+		return &model.User{}, err
 	}
 
-	return user, nil
+	return &user, nil
 }
 
 // ユーザ名が存在するか確認
