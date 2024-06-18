@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"sns_backend/pkg/common/model"
 	"sns_backend/pkg/common/random"
+	"sns_backend/pkg/db/create"
 	"sns_backend/pkg/db/read"
 	"sns_backend/pkg/session"
 
@@ -78,6 +79,15 @@ func uploadPost(c *gin.Context) {
 		c.JSON(500, gin.H{
 			"message": "upload failed",
 			"error":   "failed to save file",
+		})
+		return
+	}
+
+	err = create.CreatePicture(header.Filename, group.Group_id)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"message": "internal server error",
+			"error":   "failed to create picture",
 		})
 		return
 	}
