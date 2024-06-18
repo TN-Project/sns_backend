@@ -18,6 +18,10 @@ func Engine(r *gin.Engine) *gin.Engine {
 	{
 		groupGroup.POST("/add", group.AddGroupPost())
 	}
+	pictureGroup := r.Group("/picture")
+	{
+		pictureGroup.POST("/upload", group.AddGroupPost())
+	}
 
 	return r
 }
