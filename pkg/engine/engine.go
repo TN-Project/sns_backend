@@ -22,6 +22,7 @@ func Engine(r *gin.Engine) *gin.Engine {
 	pictureGroup := r.Group("/picture")
 	{
 		pictureGroup.POST("/upload", picture.UploadPost())
+		pictureGroup.GET("/get", picture.GetPictureGet())
 	}
 
 	return r
