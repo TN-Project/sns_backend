@@ -7,3 +7,7 @@ import (
 func UploadPost() gin.HandlerFunc {
 	return uploadPost
 }
+
+func GetPictureGet() gin.HandlerFunc {
+	return getPictureGet
+}
