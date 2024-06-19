@@ -8,6 +8,9 @@ func AddGroupPost() gin.HandlerFunc {
 	return addGroupPost
 }
 
+func AcquisitionAffiliationUserGet() gin.HandlerFunc {
+	return acquisitionAffiliationUserGet
+  
 func GroupPictureListGet() gin.HandlerFunc {
 	return groupPictureListGet
 }
