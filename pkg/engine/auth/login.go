@@ -52,7 +52,7 @@ func loginPost(c *gin.Context) {
 
 	// セッションを設定(cookieにセット)
 	session.Default(c, "session", &model.Session{}).Set(c, session_data)
-
+	c.SetCookie("login", "true", 60*60*24, "/", "localhost", false, false)
 	c.JSON(200, gin.H{
 		"error":   nil,
 		"message": "login success",
