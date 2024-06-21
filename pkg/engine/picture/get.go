@@ -31,17 +31,8 @@ func getPictureGet(c *gin.Context) {
 		return
 	}
 
-	group, err := read.GetGroupByID(GroupID)
-	if err != nil {
-		c.JSON(500, gin.H{
-			"message": "internal server error",
-			"error":   "failed to get group",
-		})
-		return
-	}
-
 	// ユーザがグループに所属しているか確認
-	users, err := read.GetGroupsUser(group.Group_name)
+	users, err := read.GetGroupsUserByGroupID(GroupID)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"message": "internal server error",

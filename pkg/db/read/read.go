@@ -109,23 +109,17 @@ func GetGroup(group_name string) (model.Group, error) {
 	return group, nil
 }
 
-// グループに所属するユーザを取得
-func GetGroupsUser(group_name string) ([]model.User, error) {
+// グループに所属するユーザを取得(グループIDから)
+func GetGroupsUserByGroupID(group_id int) ([]model.User, error) {
 	db := db.Connect()
 	defer db.Close()
-
-	// group_nameからグループ情報を取得
-	groupdata, err := GetGroup(group_name)
-	if err != nil {
-		return nil, err
-	}
 
 	sql := `SELECT "user"."user_id", "user"."nickname", "user"."username", "user"."password"
 			FROM "user"
 			JOIN "user_group" ON "user"."user_id" = "user_group"."user_id"
 			WHERE "user_group"."group_id" = $1`
 
-	rows, err := db.Query(sql, groupdata.Group_id)
+	rows, err := db.Query(sql, group_id)
 	if err != nil {
 		slog.Error("Error getting group's user: " + err.Error())
 		return nil, err
