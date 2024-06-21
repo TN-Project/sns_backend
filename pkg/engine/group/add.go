@@ -1,8 +1,10 @@
 package group
 
 import (
+	"sns_backend/pkg/common/model"
 	"sns_backend/pkg/db/create"
 	"sns_backend/pkg/db/read"
+	"sns_backend/pkg/session"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +15,15 @@ type AddGroupRequest struct {
 }
 
 func addGroupPost(c *gin.Context) {
+	data := session.Default(c, "session", &model.Session{}).Get(c)
+	if data == nil {
+		c.JSON(401, gin.H{
+			"message": "unauthorized",
+			"error":   "session not found",
+		})
+		return
+	}
+
 	var req AddGroupRequest
 	if err := c.BindJSON(&req); err != nil {
 		c.JSON(400, gin.H{
@@ -35,6 +46,10 @@ func addGroupPost(c *gin.Context) {
 		}
 		userids = append(userids, userdata.User_id)
 	}
+
+	// リクエストを送ったユーザも追加
+	userdata, err := read.GetUser(data.(*model.Session).Username)
+	userids = append(userids, userdata.User_id)
 
 	// グループを作成
 	group_id, err := create.CreateGroup(req.GroupName)
