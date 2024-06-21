@@ -58,6 +58,7 @@ func signupPost(c *gin.Context) {
 
 	// セッションを設定
 	session.Default(c, "session", &model.Session{}).Set(c, session_data)
+	c.SetCookie("login", "true", 0, "/", "localhost", false, false)
 
 	c.JSON(200, gin.H{
 		"message": "complete signup",
