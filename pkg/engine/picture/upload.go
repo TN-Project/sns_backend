@@ -9,6 +9,7 @@ import (
 	"sns_backend/pkg/db/create"
 	"sns_backend/pkg/db/read"
 	"sns_backend/pkg/session"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,8 +25,15 @@ func uploadPost(c *gin.Context) {
 	}
 
 	// ユーザがグループに所属しているか確認
-	group_name := c.PostForm("group_name")
-	users, err := read.GetGroupsUser(group_name)
+	group_id, err := strconv.Atoi(c.PostForm("group_id"))
+	if err != nil {
+		c.JSON(400, gin.H{
+			"message": "bad request",
+			"error":   "invalid group_id",
+		})
+		return
+	}
+	users, err := read.GetGroupsUserByGroupID(group_id)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"message": "internal server error",
@@ -48,8 +56,8 @@ func uploadPost(c *gin.Context) {
 		return
 	}
 
-	// グループIDを取得
-	group, err := read.GetGroup(group_name)
+	// グループ詳細を取得
+	group, err := read.GetGroupByID(group_id)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"message": "internal server error",
