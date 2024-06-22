@@ -2,4 +2,4 @@ go.mod
 go.sum
 cmd/main
 test.http
-pro.env
+production.env

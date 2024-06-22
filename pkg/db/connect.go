@@ -19,7 +19,7 @@ var (
 )
 
 func init() {
-	err := godotenv.Load("pro.env")
+	err := godotenv.Load("production.env")
 	if err != nil {
 		slog.Error("Error loading .env file")
 	}

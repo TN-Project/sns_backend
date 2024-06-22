@@ -16,7 +16,7 @@ var client *redis.Client
 
 func init() {
 	slog.Info("Initializing session package")
-	err := godotenv.Load("pro.env")
+	err := godotenv.Load("production.env")
 	if err != nil {
 		slog.Error("Error loading .env file")
 	}
