@@ -3,23 +3,27 @@ package session
 import (
 	"encoding/json"
 	"log/slog"
+	"os"
 	"sns_backend/pkg/common/random"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/redis/go-redis/v9"
 )
 
 var client *redis.Client
 
 func init() {
+	slog.Info("Initializing session package")
+	err := godotenv.Load("production.env")
+	if err != nil {
+		slog.Error("Error loading .env file")
+	}
+	REDIS_HOST := os.Getenv("REDIS_HOST")
 
-	REDIS_HOST := "redis:6379"
-
-	client = redis.NewClient(&redis.Options{
-		Addr: REDIS_HOST,
-		DB:   0,
-	})
+	opt, _ := redis.ParseURL(REDIS_HOST)
+	client = redis.NewClient(opt)
 
 	if _, err := client.Ping(&gin.Context{}).Result(); err != nil {
 		slog.Error("Error connecting to redis: " + err.Error())
