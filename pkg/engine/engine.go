@@ -23,6 +23,7 @@ func Engine(r *gin.Engine) *gin.Engine {
 	{
 		authGroup.POST("/signup", auth.SignupPost())
 		authGroup.POST("/login", auth.LoginPost())
+		authGroup.GET("/logout",auth.LogoutGet())
 	}
 	groupGroup := r.Group("/group")
 	{

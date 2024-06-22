@@ -11,3 +11,6 @@ func SignupPost() gin.HandlerFunc {
 func LoginPost() gin.HandlerFunc {
 	return loginPost
 }
+func LogoutGet() gin.HandlerFunc {
+	return logoutGet
+}
