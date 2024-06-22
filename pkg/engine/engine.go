@@ -14,7 +14,7 @@ func Engine(r *gin.Engine) *gin.Engine {
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
 		AllowCredentials: true,
 	}))
@@ -26,7 +26,7 @@ func Engine(r *gin.Engine) *gin.Engine {
 	}
 	groupGroup := r.Group("/group")
 	{
-		groupGroup.POST("/add", group.AddGroupPost())    
+		groupGroup.POST("/add", group.AddGroupPost())
 		groupGroup.GET("/acquisition-affiliation-user", group.AcquisitionAffiliationUserGet())
 		groupGroup.GET("/:group_id/pictures-list", group.GroupPictureListGet())
 	}
